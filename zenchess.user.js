@@ -15,6 +15,7 @@
 // @updateURL    https://raw.githubusercontent.com/dakshjain14/ZenChess/main/chess-zen.user.js
 // ==/UserScript==
 
+
 (function () {
   "use strict";
 
@@ -22,6 +23,7 @@
   const RATING_SELECTORS = [
     ".cc-user-rating-white", // names, hover card, lobby
     ".rating-score-rating",
+    ".game-over-stat-card-value", // popup number, backup
   ];
 
   // text scan areas
@@ -31,7 +33,7 @@
     "[class*='game-over']",
   ].join(",");
 
-  // TODO real selector once i have game-over.html
+  // loose match, popup root unknown
   const GAME_OVER_ZONE = "[class*='game-over']";
 
   // resign btn only there mid-game
@@ -58,18 +60,24 @@
       visibility: hidden !important;
     }
 
+    /* rating card in game-over popup */
+    html.zen-on .game-over-stat-card-rating,
+    html.zen-on .game-over-stats-single:has(.game-over-stat-card-rating) {
+      display: none !important;
+    }
+
     #zen-toggle {
       position: fixed;
-      right: 16px;
-      bottom: 16px;
+      right: 20px;
+      bottom: 80px;
       z-index: 9999;
       overflow: hidden;
-      padding: 7px 11px;
-      border: 1px solid #3c3a37;
-      border-radius: 6px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font: 600 16px/1 system-ui, sans-serif;
       background: #262421;
       color: #bababa;
-      font: 600 12px/1 system-ui, sans-serif;
+      font: 600 14px/1 system-ui, sans-serif;
       cursor: pointer;
       user-select: none;
     }
@@ -88,8 +96,8 @@
 
     #zen-toast {
       position: fixed;
-      right: 16px;
-      bottom: 52px;
+      right: 20px;
+      bottom: 66px; /* clear the btn */
       z-index: 9999;
       max-width: 260px;
       padding: 8px 11px;
