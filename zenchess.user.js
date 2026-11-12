@@ -11,8 +11,8 @@
 // @grant        GM_registerMenuCommand
 // @grant        GM_xmlhttpRequest
 // @connect      api.chess.com
-// @downloadURL  https://raw.githubusercontent.com/dakshjain14/ZenChess/main/chess-zen.user.js
-// @updateURL    https://raw.githubusercontent.com/dakshjain14/ZenChess/main/chess-zen.user.js
+// @downloadURL  https://raw.githubusercontent.com/dakshjain14/ZenChess/main/zenchess.user.js
+// @updateURL    https://raw.githubusercontent.com/dakshjain14/ZenChess/main/zenchess.user.js
 // ==/UserScript==
 
 (function () {
