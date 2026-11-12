@@ -1,4 +1,4 @@
-#ZenChess
+## ZenChess
 ZenChess is a Userscript that hides ratings on chess.com: yours, your opponents, next to the names and the hovercards, as well as in the in-game popup. Ratings stay hidden until you turn it off.
 
 | Before | After |
