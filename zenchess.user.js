@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Chess.com Zen Mode
 // @namespace    https://github.com/dakshjain14/ZenChess
-// @version      0.1.0
+// @version      0.1.1
 // @description  Hides ratings on chess.com until you turn it off. Locked during games.
 // @match        https://www.chess.com/*
 // @run-at       document-start
@@ -14,7 +14,6 @@
 // @downloadURL  https://raw.githubusercontent.com/dakshjain14/ZenChess/main/chess-zen.user.js
 // @updateURL    https://raw.githubusercontent.com/dakshjain14/ZenChess/main/chess-zen.user.js
 // ==/UserScript==
-
 
 (function () {
   "use strict";
@@ -69,15 +68,15 @@
     #zen-toggle {
       position: fixed;
       right: 20px;
-      bottom: 80px;
+      bottom: 20px;
       z-index: 9999;
       overflow: hidden;
       padding: 14px 22px;
+      border: 1px solid #3c3a37;
       border-radius: 10px;
-      font: 600 16px/1 system-ui, sans-serif;
       background: #262421;
       color: #bababa;
-      font: 600 14px/1 system-ui, sans-serif;
+      font: 600 16px/1 system-ui, sans-serif;
       cursor: pointer;
       user-select: none;
     }
@@ -97,7 +96,7 @@
     #zen-toast {
       position: fixed;
       right: 20px;
-      bottom: 66px; /* clear the btn */
+      bottom: 80px; /* above the btn */
       z-index: 9999;
       max-width: 260px;
       padding: 8px 11px;
@@ -226,7 +225,10 @@
   async function showRecap() {
     const username = GM_getValue("username", "");
     const before = GM_getValue("snapshot", null);
-    if (!username || !before) return;
+    if (!username || !before) {
+      showToast("No session yet. Set your username, then turn Zen on.");
+      return;
+    }
 
     const after = await fetchRatings(username);
     if (!after) {
@@ -244,7 +246,7 @@
     showToast(
       changes.length
         ? `This session: ${changes.join(", ")}`
-        : "No change showing yet. The API can lag behind, check again later."
+        : "No change yet. API lags, try 'Check session recap' in a few min."
     );
   }
 
@@ -323,6 +325,8 @@
     // already on, snapshot now
     if (zenOn) takeSnapshot();
   });
+  // recheck, keeps snapshot
+  GM_registerMenuCommand("Check session recap", showRecap);
 
   if (document.body) buildToggle();
   else document.addEventListener("DOMContentLoaded", buildToggle);
